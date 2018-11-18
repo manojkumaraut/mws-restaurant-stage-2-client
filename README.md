@@ -1,5 +1,5 @@
 
-# Restaurant Reviews App - Stage 1 - Modified version
+# Restaurant Reviews App - Stage 2 - Client side version
 
 - Download the repository
 - Use npm install command
@@ -18,51 +18,6 @@
 **Screenshot 4**
 ![alt text](https://github.com/manojkumaraut/mws-restaurant-stage-1/blob/master/screenshots/screenshot_14.jpg)
 
-
-1.**Setting up of Local Server:**
-- Fork and clone the starter repository.
-- Use npm install to add http-server 
-
-2.**Implementation of meta tags and viewport:**
- - Modification of CSS Styles according to the standards :
-  - Added display: grid and display: flexbox for content centering Header nav and Restaurant list
-
-3.**Implementation of Responsive Design**
- - Using of Media Queries
- - rendering of Images based on device displays
-
-4.**Implementation of  Responsive  Images**
-
-- Generaterated multi-resolution images for srcset with Grunt by creating gruntfile.js.
-- Install the Following Package
-    "grunt": "^1.0.2",
-    "grunt-contrib-clean": "^1.1.0",
-    "grunt-responsive-images": "^1.10.1"
- -  Created Gruntfile.js and specify the sizes with width and quality
- - Run npm install.
-- Run grunt.
- - Eg: 
-  "srcset_index": "img/1-300.jpg 1x, img/1-600_2x.jpg 2x",
-  "srcset_restaurant": "img/1-300.jpg 300w, img/1-400.jpg 400w,
-
-5.**Dev Tools Audit - Accessibility testing and implementation (a11y):**
-   
-   - Contrast between colors
-   - use of alt and title tags for images
-   - Better usability
-     Updated the  cursor to a pointer when it hovered over a button and also  a hover color.
-   - Addition of accessablity labels
-
-6.**Implementation of service worker and Cache assets**
-  - cache assets on install
-  - serve cached assets
-  - offline image
-  
-7.**Other Changes:**
-- Changing of Theme color with background image
-- Added font awesome icons 
-- Increase touch targets 
-- Used ARIA roles, Landmarks, region, aria labels
  
 # Mobile Web Specialist Certification Course
 ---
