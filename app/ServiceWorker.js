@@ -1,4 +1,4 @@
- const staticCacheName = 'restaurant-static-003';
+ const staticCacheName = 'restaurant-static-005';
 
 /**
  *   Install and Caching of Asset
@@ -35,33 +35,67 @@ self.addEventListener('install', event => {
   );
 });
 
+
 /**
  *   Fetch event and Offline Caching 
  */
-
 self.addEventListener('fetch', event => {
-    event.respondWith(
-      caches.match(event.request).then(response => {
-        return response || fetch(event.request).then(fetchResponse => {
+  const request = event.request;
+  const requestUrl = new URL(request.url);
+
+  if (requestUrl.port === '1337') {
+    event.respondWith(idbResponse(request));
+  }
+  else {
+    event.respondWith(cacheResponse(request));
+  }
+});
+
+function cacheResponse(request) {
+	return caches.match(request).then(response => {
+        return response || fetch(request).then(fetchResponse => {
             return caches.open(staticCacheName).then(cache => {
-                if(event.request.url.indexOf('http') === 0){
-                    cache.put(event.request, fetchResponse.clone());
+                if(request.url.indexOf('http') === 0){
+                    cache.put(request, fetchResponse.clone());
                 }
               return fetchResponse;
             });
           });
       }).catch(error => {
-        if (event.request.url.includes('.jpg')) {
+        if (request.url.includes('.jpg')) {
             return caches.match('/img/appoffline.png');
           }
           return new Response('Not connected to the internet', {
             status: 404,
             statusText: "Not connected to the internet"
           });
-        console.log(error, 'no cache entry for:', event.request.url);
+        console.log(error, 'no cache entry for:', request.url);
       })
-    );
-  });
+   
+	
+}
+function idbResponse(request) {
+  return idbKeyVal.get('restaurants')
+    .then(restaurants => {
+      return (
+        restaurants ||
+        fetch(request)
+          .then(response => response.json())
+          .then(json => {
+            idbKeyVal.set('restaurants', json);
+            return json;
+          })
+      );
+    })
+    .then(response => new Response(JSON.stringify(response)))
+    .catch(error => {
+      return new Response(error, {
+        status: 404,
+        statusText: 'my bad request'
+      });
+    });
+}
+	
 
 /**
  *   Static Cache Clear
